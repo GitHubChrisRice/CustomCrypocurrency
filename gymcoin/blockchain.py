@@ -17,7 +17,7 @@ class Blockchain (object):
 		self.chain = [self.addGenesisBlock()];
 		self.pendingTransactions = [];
 		self.difficulty = 2;
-		self.minerRewards = 50;
+		self.minerRewards = 55;
 		self.blockSize = 10;
 		self.nodes = set();
 
@@ -50,7 +50,7 @@ class Blockchain (object):
 		return False;
 
 	def minePendingTransactions(self, miner):
-		
+
 		lenPT = len(self.pendingTransactions);
 		if(lenPT <= 1):
 			print("Not enough transactions to mine! (Must be > 1)")
@@ -61,7 +61,7 @@ class Blockchain (object):
 				end = i + self.blockSize;
 				if i >= lenPT:
 					end = lenPT;
-				
+
 				transactionSlice = self.pendingTransactions[i:end];
 
 				newBlock = Block(transactionSlice, datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), len(self.chain));
@@ -140,7 +140,7 @@ class Blockchain (object):
 		public_key = key.publickey().export_key()
 		file_out = open("receiver.pem", "wb")
 		file_out.write(public_key)
-		
+
 		print(public_key.decode('ASCII'));
 		return key.publickey().export_key().decode('ASCII');
 
@@ -194,9 +194,9 @@ class Blockchain (object):
 
 			chain.append(block);
 		return chain;
-		
+
 	def getBalance(self, person):
-		balance = 0; 
+		balance = 0;
 		for i in range(1, len(self.chain)):
 			block = self.chain[i];
 			try:
@@ -238,9 +238,9 @@ class Block (object):
 		arr = [];
 		for i in range(0, difficulty):
 			arr.append(i);
-		
+
 		#compute until the beginning of the hash = 0123..difficulty
-		arrStr = map(str, arr);  
+		arrStr = map(str, arr);
 		hashPuzzle = ''.join(arrStr);
 		#print(len(hashPuzzle));
 		while self.hash[0:difficulty] != hashPuzzle:
@@ -257,10 +257,10 @@ class Block (object):
 			if not transaction.isValidTransaction():
 				return False;
 			return True;
-	
+
 	def JSONencode(self):
 		return jsonpickle.encode(self);
-	
+
 class Transaction (object):
 	def __init__(self, sender, reciever, amt):
 		self.sender = sender;
